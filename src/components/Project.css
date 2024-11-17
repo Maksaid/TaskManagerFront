@@ -6,7 +6,6 @@
     height: 20vh;
     border-block: solid;
     border-color: #333333;
-    background: linear-gradient(9deg, ghostwhite, ghostwhite, ghostwhite, gray);
     margin: .5vw 2vw;
 }
 .project-img{
@@ -22,19 +21,9 @@
     padding-left: 5vw;
 }
 
-.project-card:before{
+.project-card:hover{
+    transition: 0.1s;
     border-color: gray;
-    transition: opacity 0.5s linear;
-    opacity: 0;
-    z-index: -1;
-    background: linear-gradient(9deg, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, gray);
-
-}
-.project-card:hover:before{
-    border-color: gray;
-    transition: opacity 0.5s linear;
-    background: linear-gradient(9deg, ghostwhite, ghostwhite, ghostwhite, gray);
-    opacity: 1;
-
+    background-color: #d0d0d0;
 
 }
