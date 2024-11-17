@@ -1,0 +1,40 @@
+.project-card{
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    width: 80vw;
+    height: 20vh;
+    border-block: solid;
+    border-color: #333333;
+    background: linear-gradient(9deg, ghostwhite, ghostwhite, ghostwhite, gray);
+    margin: .5vw 2vw;
+}
+.project-img{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.project-name{
+    display: flex;
+    /* align-content: center; */
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding-left: 5vw;
+}
+
+.project-card:before{
+    border-color: gray;
+    transition: opacity 0.5s linear;
+    opacity: 0;
+    z-index: -1;
+    background: linear-gradient(9deg, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, ghostwhite, gray);
+
+}
+.project-card:hover:before{
+    border-color: gray;
+    transition: opacity 0.5s linear;
+    background: linear-gradient(9deg, ghostwhite, ghostwhite, ghostwhite, gray);
+    opacity: 1;
+
+
+}
