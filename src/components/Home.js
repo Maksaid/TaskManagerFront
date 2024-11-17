@@ -3,6 +3,8 @@ import axios from 'axios';
 import Project from './Project'; // Make sure to import your Project component
 import ims from '../images/images.png'
 import ims2 from '../images/logo512.png'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 const Home = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -34,8 +36,8 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Company Name</h1>
-            <h3>Projects:</h3>
+            <h1 className="m-5">Tasker incorporation</h1>
+            <h3 className="m-4">Projects:</h3>
             {projects.map((project, index) => (
                 <Project key={index} img_path={project.image_path} projectName={project.project_name} />
             ))}
