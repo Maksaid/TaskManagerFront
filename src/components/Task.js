@@ -10,14 +10,14 @@ const Task = () => {
 
     return (
         <div>
-            <h1>Task Page</h1>
-            <ul>
+            <h1 className="m-4">Task Page</h1>
+            <div className="flex-column m-lg-2 m-4 d-flex">
                 {tasks.map(task => (
-                    <li key={task.id}>
-                        <Link to={`/tasks/${task.id}`}>{task.title}</Link>
-                    </li>
+                    <div className="flex-row border-black d-flex m-2 border rounded-1 p-2" key={task.id}>
+                        <Link className="text-black text-decoration-none" to={`/tasks/${task.id}`}>{task.title}</Link>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

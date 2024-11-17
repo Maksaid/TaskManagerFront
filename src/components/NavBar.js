@@ -7,12 +7,12 @@ const NavBar = () => {
     return (<>
             <nav className="navbar">
                 <div className="nav-logo nav-button">
-                    <p className="logo">Tasker's</p>
+                    <p className="logo d-flex justify-content-center">Tasker's</p>
                 </div>
                 <div className="nav-buttons">
-                    <Link className="nav-button" to='/'>Home</Link>
-                    <Link className="nav-button" to='/profile'>Profile</Link>
-                    <Link className="nav-button" to='/task'>Task</Link>
+                    <Link className="nav-button text-decoration-none " to='/'>Home</Link>
+                    <Link className="nav-button text-decoration-none " to='/profile'>Profile</Link>
+                    <Link className="nav-button text-decoration-none " to='/task'>Tasks</Link>
                 </div>
             </nav>
         </>
