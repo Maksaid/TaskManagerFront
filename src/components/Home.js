@@ -18,7 +18,7 @@ const Home = () => {
                 setLoading(false);
             } catch (err) {
                 //setError(err);
-                setProjects([{image_path : (ims), project_name : "project"}, {image_path : ims2, project_name : "images.png"},{image_path : ims, project_name : "../images/logo512.png"},{image_path : ims2, project_name : "../images/images.png"}])
+                setProjects([{image_path : (ims), project_name : "project", project_id : "1"}, {image_path : ims2, project_name : "images.png", project_id : "2"},{image_path : ims, project_name : "../images/logo512.png", project_id : "3"},{image_path : ims2, project_name : "../images/images.png", project_id : "4"}])
                 setLoading(false);
             }
         };
@@ -39,7 +39,7 @@ const Home = () => {
             <h1 className="m-5">Tasker incorporation</h1>
             <h3 className="m-4">Projects:</h3>
             {projects.map((project, index) => (
-                <Project key={index} img_path={project.image_path} projectName={project.project_name} />
+                <Project key={index} img_path={project.image_path} projectName={project.project_name} project_id={project.id}/>
             ))}
         </div>
     );

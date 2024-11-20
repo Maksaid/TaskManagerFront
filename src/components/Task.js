@@ -10,7 +10,7 @@ const Task = () => {
     const [showForm, setShowForm] = useState(false);
 
     const handleAddTask = () => {
-        setShowForm(true);
+        setShowForm(!showForm);
     };
 
     return (
@@ -41,9 +41,9 @@ const CreateTaskForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="flex-column d-flex w-75 m-4" onSubmit={handleSubmit}>
             <h2>Create New Task</h2>
-            <input
+            <input className="m-3"
                 type="text"
                 placeholder="Title"
                 value={title}
@@ -51,6 +51,7 @@ const CreateTaskForm = () => {
                 required
             />
             <textarea
+                className="m-3 w-100 vh-100"
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
