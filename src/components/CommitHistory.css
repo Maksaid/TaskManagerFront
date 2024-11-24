@@ -1,0 +1,43 @@
+/* src/CommitHistory.css */
+.commit-tree {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.commit-item {
+   /* margin-bottom: 20px;*/ /* Increase the margin to add more space between commits */
+    position: relative; /* For absolute positioning of the tree symbols */
+}
+
+.commit-item::before {
+    content: "┠──";
+    color: #ccc;
+    display: inline-block;
+    width: 20px;
+    position: absolute; /* Position absolutely */
+    left: -20px; /* Align to the left */
+}
+
+.commit-item:last-child::before {
+    content: "┕──";
+}
+
+.commit-item-empty-line::before {
+    content: "┃";
+    color: #ccc;
+    display: inline-block;
+    width: 20px;
+    position: absolute; /* Position absolutely */
+    left: -20px; /* Align to the left */
+}
+
+.commit-item-empty-line:last-child::before {
+    line-height: 1px;
+    content: "┃";
+    color: #ccc;
+}
+
+.commit-item:hover{
+    border-radius: 10px;
+    border: 2px solid gray;
+}

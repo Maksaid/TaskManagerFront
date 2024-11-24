@@ -40,7 +40,6 @@ const Profile = ({ userId }) => {
                     ],
                 };
                 setUser(response);
-                //setError(err);
                 setLoading(false);
             }
         };
@@ -57,45 +56,67 @@ const Profile = ({ userId }) => {
     }
 
     return (
-        <div className="user-profile">
-            <h1>{user.fullName}</h1>
-            <p>Email: {user.email}</p>
-            <p>Role ID: {user.roleId}</p>
+        <div className="container mt-4">
+            <div className="user-profile border border-secondary p-4 mb-4">
+                <h1 className="mb-3">{user.fullName}</h1>
+                <p className="mb-1">Email: {user.email}</p>
+                <p className="mb-1">Role ID: {user.roleId}</p>
+            </div>
 
-            <h2>Created Tasks</h2>
-            <ul>
-                {user.createdTasks.map((task, index) => (
-                    <li key={index}>{task.name}</li>
-                ))}
-            </ul>
+            <hr className="my-4" />
 
-            <h2>Assigned Tasks</h2>
-            <ul>
-                {user.assignedTasks.map((task, index) => (
-                    <li key={index}>{task.name}</li>
-                ))}
-            </ul>
+            <div className="mb-4">
+                <h2 className="mb-3">Created Tasks</h2>
+                <ul className="list-unstyled">
+                    {user.createdTasks.map((task, index) => (
+                        <li key={index} className="mb-2">{task.name}</li>
+                    ))}
+                </ul>
+            </div>
 
-            <h2>Task Collaborators</h2>
-            <ul>
-                {user.taskCollaborators.map((collaborator, index) => (
-                    <li key={index}>{collaborator.name}</li>
-                ))}
-            </ul>
+            <hr className="my-4" />
 
-            <h2>Comments</h2>
-            <ul>
-                {user.comments.map((comment, index) => (
-                    <li key={index}>{comment.text}</li>
-                ))}
-            </ul>
+            <div className="mb-4">
+                <h2 className="mb-3">Assigned Tasks</h2>
+                <ul className="list-unstyled">
+                    {user.assignedTasks.map((task, index) => (
+                        <li key={index} className="mb-2">{task.name}</li>
+                    ))}
+                </ul>
+            </div>
 
-            <h2>Task Histories</h2>
-            <ul>
-                {user.taskHistories.map((history, index) => (
-                    <li key={index}>{history.description}</li>
-                ))}
-            </ul>
+            <hr className="my-4" />
+
+            <div className="mb-4">
+                <h2 className="mb-3">Task Collaborators</h2>
+                <ul className="list-unstyled">
+                    {user.taskCollaborators.map((collaborator, index) => (
+                        <li key={index} className="mb-2">{collaborator.name}</li>
+                    ))}
+                </ul>
+            </div>
+
+            <hr className="my-4" />
+
+            <div className="mb-4">
+                <h2 className="mb-3">Comments</h2>
+                <ul className="list-unstyled">
+                    {user.comments.map((comment, index) => (
+                        <li key={index} className="mb-2">{comment.text}</li>
+                    ))}
+                </ul>
+            </div>
+
+            <hr className="my-4" />
+
+            <div className="mb-4">
+                <h2 className="mb-3">Task Histories</h2>
+                <ul className="list-unstyled">
+                    {user.taskHistories.map((history, index) => (
+                        <li key={index} className="mb-2">{history.description}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };

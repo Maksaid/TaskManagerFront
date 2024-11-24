@@ -7,17 +7,11 @@ const Task = () => {
         { id: 2, title: 'Task 2' },
         { id: 3, title: 'Task 3' },
     ]);
-    const [showForm, setShowForm] = useState(false);
-
-    const handleAddTask = () => {
-        setShowForm(!showForm);
-    };
 
     return (
         <div>
             <h1 className="m-4">Task Page</h1>
-            <button onClick={handleAddTask}>Add Task</button>
-            {showForm && <CreateTaskForm />}
+            <Link className="m-4 btn btn-primary" to="/create-task">Add Task</Link>
             <div className="flex-column m-lg-2 m-4 d-flex">
                 {tasks.map(task => (
                     <div className="flex-row border-black d-flex m-2 border rounded-1 p-2" key={task.id}>
@@ -26,39 +20,6 @@ const Task = () => {
                 ))}
             </div>
         </div>
-    );
-};
-
-const CreateTaskForm = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Task created:', { title, description });
-        setTitle('');
-        setDescription('');
-    };
-
-    return (
-        <form className="flex-column d-flex w-75 m-4" onSubmit={handleSubmit}>
-            <h2>Create New Task</h2>
-            <input className="m-3"
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-            />
-            <textarea
-                className="m-3 w-100 vh-100"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-            />
-            <button type="submit">Create Task</button>
-        </form>
     );
 };
 

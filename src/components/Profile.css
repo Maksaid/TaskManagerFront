@@ -30,3 +30,7 @@
 .user-profile li {
     margin-bottom: 0.5rem;
 }
+
+hr.my-4 {
+    border-top: 2px solid #000;
+}
