@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf765717-7475-4eb2-a06e-955c2f493e7b" name="Changes" comment="tasks styles">
-      <change afterPath="$PROJECT_DIR$/src/components/CommitHistory.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/CommitHistory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/CreateTask.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/CreateTask.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TaskDescription.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TaskDetail.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Task.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TaskDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +27,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2oyNBHdYFqmf58shyU5ixQm774h" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,6 +39,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -76,6 +70,7 @@
       <workItem from="1732118679268" duration="625000" />
       <workItem from="1732219533095" duration="3461000" />
       <workItem from="1732474896719" duration="7397000" />
+      <workItem from="1732653815435" duration="303000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1731841969889</created>
