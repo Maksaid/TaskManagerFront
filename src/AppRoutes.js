@@ -5,6 +5,7 @@ import Profile from './components/Profile';
 import Task from './components/Task';
 import TaskDetail from "./components/TaskDetail";
 import CreateTask from "./components/CreateTask";
+import AdminPage from "./components/AdminPage";
 
 const AppRoutes = () => {
     return (
@@ -15,7 +16,7 @@ const AppRoutes = () => {
             <Route path="/task/:taskId" element={<TaskDetail/>}/>
             <Route path="/project/:projectId" element={<TaskDetail/>}/>
             <Route path="/create-task" element={<CreateTask />} />
-
+            <Route path="/admin_page" element={<AdminPage />} />
         </Routes>
     );
 };

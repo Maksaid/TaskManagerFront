@@ -11,8 +11,9 @@ const NavBar = () => {
                 </div>
                 <div className="nav-buttons">
                     <Link className="nav-button text-decoration-none " to='/'>Home</Link>
-                    <Link className="nav-button text-decoration-none " to='/profile'>Profile</Link>
                     <Link className="nav-button text-decoration-none " to='/task'>Tasks</Link>
+                    <Link className="nav-button text-decoration-none " to='/profile'>Profile</Link>
+                    <Link className="nav-button text-decoration-none " to='/admin_page'>Settings</Link>
                 </div>
             </nav>
         </>
