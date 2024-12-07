@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CommitHistory from './CommitHistory';
 import TaskDescription from './TaskDescription';
-import './TaskDetail.css'; // Import the CSS file
+import './TaskDetail.css';
+import {useParams} from "react-router-dom";
 
 const defaultEntity = {
     Id: 0,
@@ -35,6 +36,7 @@ const defaultCollaborators = [
 ];
 
 const TaskDetail = () => {
+    let { taskId } = useParams();
     const [entity, setEntity] = useState(defaultEntity);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,11 +44,14 @@ const TaskDetail = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [statuses, setStatuses] = useState([]);
     const [availableCollaborators, setAvailableCollaborators] = useState([]);
-
     useEffect(() => {
-        axios.get('https://api.example.com/entity')
+        console.log(`https://localhost:7260/api/Task/${taskId}`);
+        axios.get(`https://localhost:7260/api/Task/${taskId}`)
             .then(response => {
+                console.log(response);
                 setEntity(response.data);
+                setStatuses(response.data.status);
+                setAvailableCollaborators(response.data.collaborators);
             })
             .catch(error => {
                 console.error('Error fetching entity data:', error);
@@ -73,7 +78,7 @@ const TaskDetail = () => {
                 console.error('Error fetching collaborators:', error);
                 setAvailableCollaborators(defaultCollaborators);
             });
-    }, []);
+    }, [taskId]);
 
     const handleEdit = () => {
         setIsEditing(true);
