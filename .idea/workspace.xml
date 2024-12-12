@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf765717-7475-4eb2-a06e-955c2f493e7b" name="Changes" comment="status transitions">
-      <change afterPath="$PROJECT_DIR$/src/components/LoginPage.js" afterDir="false" />
+    <list default="true" id="cf765717-7475-4eb2-a06e-955c2f493e7b" name="Changes" comment="log_in page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AdminPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdminPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateTask.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateTask.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Project.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Project.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Project.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Task.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TaskDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,20 +39,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\maksaid1972\WebstormProjects\TaskManagerFront\src\images" />
@@ -75,7 +77,10 @@
       <workItem from="1732474896719" duration="7397000" />
       <workItem from="1733256493959" duration="5592000" />
       <workItem from="1733317416145" duration="1129000" />
-      <workItem from="1733576186155" duration="10410000" />
+      <workItem from="1733576186155" duration="11460000" />
+      <workItem from="1733772375894" duration="8009000" />
+      <workItem from="1733823558046" duration="2702000" />
+      <workItem from="1733858707765" duration="1331000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1731841969889</created>
@@ -119,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1733317654149</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="log_in page">
+      <created>1733587710840</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733587710840</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +154,7 @@
     <MESSAGE value="temp" />
     <MESSAGE value="tasks styles" />
     <MESSAGE value="status transitions" />
-    <option name="LAST_COMMIT_MESSAGE" value="status transitions" />
+    <MESSAGE value="log_in page" />
+    <option name="LAST_COMMIT_MESSAGE" value="log_in page" />
   </component>
 </project>

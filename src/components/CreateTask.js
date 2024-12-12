@@ -1,3 +1,4 @@
+// src/components/CreateTask.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -20,30 +21,34 @@ const CreateTask = () => {
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
     const [collaborators, setCollaborators] = useState([]);
-    const [comment, setComment] = useState('');
+    const [assignee, setAssignee] = useState('');
     const [statuses, setStatuses] = useState([]);
     const [availableCollaborators, setAvailableCollaborators] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('https://api.example.com/statuses')
-            .then(response => {
-                setStatuses(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching statuses:', error);
+        const fetchData = async () => {
+            try {
+                let org_id = localStorage.getItem("org_id");
+                const response1 = await axios.get('https://localhost:7260/api/Organisation/Statuses', {
+                    params: { organization: org_id } // Add the organizationId as a query parameter
+                });
+                const response2 = await axios.get('https://localhost:7260/api/Organisation/Users', {
+                    params: { organization: org_id } // Add the organizationId as a query parameter
+                });
+                setStatuses(response1.data);
+                setAvailableCollaborators(response2.data);
+            } catch (err) {
+                console.error('Error fetching data:', err);
                 setStatuses(defaultStatuses);
-            });
-
-        axios.get('https://api.example.com/collaborators')
-            .then(response => {
-                setAvailableCollaborators(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching collaborators:', error);
                 setAvailableCollaborators(defaultCollaborators);
-            });
+            }
+        };
+
+        fetchData();
+
     }, []);
+
 
     const handleAddCollaborator = (collaborator) => {
         setCollaborators(prevCollaborators => [...prevCollaborators, collaborator.Name]);
@@ -56,7 +61,7 @@ const CreateTask = () => {
             Description: description,
             StatusName: status,
             Collaborators: collaborators,
-            Comments: [{ Text: comment, CommentedBy: 1, CommenterName: 'User 1' }]
+            Assignee: assignee
         };
         console.log('Task created:', newTask);
         // You can add logic to save the task to the server here
@@ -97,9 +102,10 @@ const CreateTask = () => {
                         onChange={(e) => setStatus(e.target.value)}
                         required
                     >
+                        <option value="">Select a status</option>
                         {statuses.map(status => (
-                            <option key={status.Id} value={status.Name}>
-                                {status.Name}
+                            <option key={status.id} value={status.name}>
+                                {status.name}
                             </option>
                         ))}
                     </select>
@@ -112,8 +118,8 @@ const CreateTask = () => {
                     >
                         <option value="">Select a collaborator</option>
                         {availableCollaborators.map(collaborator => (
-                            <option key={collaborator.Id} value={collaborator.Name}>
-                                {collaborator.Name}
+                            <option key={collaborator.id} value={collaborator.name}>
+                                {collaborator.name}
                             </option>
                         ))}
                     </select>
@@ -124,14 +130,21 @@ const CreateTask = () => {
                     </ul>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="comment" className="form-label">Comment</label>
-                    <textarea
+                    <label htmlFor="assignee" className="form-label">Assignee</label>
+                    <select
                         className="form-control"
-                        id="comment"
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Add a comment..."
-                    />
+                        id="assignee"
+                        value={assignee}
+                        onChange={(e) => setAssignee(e.target.value)}
+                        required
+                    >
+                        <option value="">Select an assignee</option>
+                        {availableCollaborators.map(collaborator => (
+                            <option key={collaborator.Id} value={collaborator.Name}>
+                                {collaborator.Name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <button className="btn btn-success" type="submit">Create Task</button>
             </form>

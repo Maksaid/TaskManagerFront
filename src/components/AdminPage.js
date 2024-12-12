@@ -1,9 +1,8 @@
 // src/components/AdminPage.js
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import ReactFlow, { ReactFlowProvider, MiniMap,useNodesState,
-    useEdgesState, Controls, Background, addEdge } from 'react-flow-renderer';
-import {SmoothStepEdge} from "react-flow-renderer";
+import ReactFlow, { ReactFlowProvider, MiniMap, useNodesState, useEdgesState, Controls, Background, addEdge } from 'react-flow-renderer';
+import { SmoothStepEdge } from "react-flow-renderer";
 
 const AdminPage = () => {
     const defaultStatuses = ['Draft', 'Analytics', 'Development', 'Testing'];
@@ -21,6 +20,9 @@ const AdminPage = () => {
     const [loading, setLoading] = useState(true);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [newStatus, setNewStatus] = useState('');
+    const [users, setUsers] = useState([]);
+    const [roles, setRoles] = useState([]);
 
     const onConnect = useCallback(
         (params) => setEdges((eds) => addEdge(params, eds)),
@@ -30,7 +32,11 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchStatuses = async () => {
             try {
-                const response = await axios.get('https://api.example.com/statuses'); // Replace with your API endpoint
+                let org_id = localStorage.getItem("org_id");
+                const response = await axios.get('https://localhost:7260/api/Organisation/Statuses', {
+                    params: { organization: org_id } // Add the organizationId as a query parameter
+                });
+                console.log(response.data)
                 setStatuses(response.data);
             } catch (err) {
                 setStatuses(defaultStatuses);
@@ -41,10 +47,11 @@ const AdminPage = () => {
 
         const fetchTransitions = async () => {
             try {
-                const response = await axios.get('https://api.example.com/transitions'); // Replace with your API endpoint
-                if (response.data.length > 0) {
-                    setTransitions(response.data);
-                }
+                let org_id = localStorage.getItem("org_id");
+                const response = await axios.get('https://localhost:7260/api/Organisation/StatusTransition', {
+                    params: { organization: org_id } // Add the organizationId as a query parameter
+                });
+                setTransitions(response.data);
             } catch (err) {
                 setTransitions(defaultTransitions);
             } finally {
@@ -52,8 +59,36 @@ const AdminPage = () => {
             }
         };
 
+        const fetchUsers = async () => {
+            try {
+                let org_id = localStorage.getItem("org_id");
+                const response = await axios.get('https://localhost:7260/api/Organisation/Users', {
+                    params: { organization: org_id } // Add the organizationId as a query parameter
+                });
+                const usersData = response.data;
+                setUsers(usersData);
+
+                /*// Group users by role
+                const rolesMap = usersData.reduce((acc, user) => {
+                    if (!acc[user.role_id]) {
+                        acc[user.role_id] = [];
+                    }
+                    acc[user.role_id].push(user);
+                    return acc;
+                }, {});*/
+
+                /*setRoles(Object.keys(rolesMap).map(roleId => ({
+                    roleId,
+                    users: rolesMap[roleId]
+                })));*/
+            } catch (err) {
+                console.error('Error fetching users:', err);
+            }
+        };
+
         fetchStatuses();
         fetchTransitions();
+        fetchUsers();
     }, []);
 
     const updateElements = () => {
@@ -89,8 +124,25 @@ const AdminPage = () => {
         }
     };
 
+    const handleAddStatus = async () => {
+        if (newStatus) {
+            try {
+                let org_id = localStorage.getItem("org_id");
+                const response = await axios.post('https://localhost:7260/api/Status', {
+                    organizationId: org_id,
+                    name: newStatus
+                });
+                setStatuses([...statuses, response.data]);
+                setNewStatus('');
+                updateElements();
+            } catch (err) {
+                console.error('Error adding status:', err);
+            }
+        }
+    };
+
     if (loading) {
-        //return <div className="container mt-5">Loading...</div>;
+        return <div className="container mt-5">Loading...</div>;
     }
 
     return (
@@ -109,8 +161,8 @@ const AdminPage = () => {
                         >
                             <option value="">Select</option>
                             {statuses.map((status) => (
-                                <option key={status} value={status}>
-                                    {status}
+                                <option key={status.id} value={status.name}>
+                                    {status.name}
                                 </option>
                             ))}
                         </select>
@@ -125,8 +177,8 @@ const AdminPage = () => {
                         >
                             <option value="">Select</option>
                             {statuses.map((status) => (
-                                <option key={status} value={status}>
-                                    {status}
+                                <option key={status.id} value={status.name}>
+                                    {status.name}
                                 </option>
                             ))}
                         </select>
@@ -137,7 +189,7 @@ const AdminPage = () => {
                 </button>
                 <div>
                     <h3 className="mb-3">Current Transitions</h3>
-                    <ReactFlowProvider >
+                    <ReactFlowProvider>
                         <ReactFlow nodes={nodes} edges={edges} style={{ height: 500 }} onNodesChange={onNodesChange}
                                    onEdgesChange={onEdgesChange}
                                    onConnect={onConnect}>
@@ -146,6 +198,30 @@ const AdminPage = () => {
                             <Background />
                         </ReactFlow>
                     </ReactFlowProvider>
+                </div>
+                <div className="mt-4">
+                    <h2 className="mb-3">Add New Status</h2>
+                    <input
+                        type="text"
+                        placeholder="New Status"
+                        value={newStatus}
+                        onChange={(e) => setNewStatus(e.target.value)}
+                        className="form-control mb-2"
+                    />
+                    <button className="btn btn-success" onClick={handleAddStatus}>Add Status</button>
+                </div>
+                <h2 className="mb-4">Users</h2>
+                <div className="d-flex flex-row justify-content-between w-25">
+                    {roles.map((role) => (
+                        <div key={role.roleId} className="mb-4">
+                            <h3>{`Role ${role.roleId}`}</h3>
+                            <ul className="list-unstyled">
+                                {role.users.map((user, index) => (
+                                    <li key={index} className="mb-2">{user.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
             </section>
         </div>

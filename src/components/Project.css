@@ -3,10 +3,10 @@
     flex-direction: row;
     border-radius: 10px;
     width: 80vw;
-    height: 20vh;
+    height: 15vh;
     border-block: solid;
     border-color: #333333;
-    margin: .5vw 2vw;
+    margin: .5vw 4vw;
 }
 .project-img{
     border-top-left-radius: 10px;

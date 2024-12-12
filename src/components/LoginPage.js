@@ -16,6 +16,7 @@ const LoginPage = () => {
             if (response.data.success) {
                 // Save token or user info if needed
                 localStorage.setItem('token', response.data.token);
+
                 navigate('/home');
             } else {
                 setError('Login failed. Please check your credentials.');

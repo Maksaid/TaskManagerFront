@@ -1,21 +1,39 @@
 // src/components/Task.js
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Task = () => {
     const { project_id } = useParams();
     let projects = JSON.parse(localStorage.getItem("projects"));
-    if (projects === null)
-        projects = [{ name: "proj1" }, { name: "proj2" }];
+    console.log(projects);
+
     const current_user = localStorage.getItem("user_id");
-    const [tasks, setTasks] = useState([
-        { id: 1, title: 'Task 1', assignedTo: 'User1', createdBy: 'User2', projectName: 'Project1' },
-        { id: 2, title: 'Task 2', assignedTo: 'User2', createdBy: 'User1', projectName: 'Project2' },
-        { id: 3, title: 'Task 3', assignedTo: 'User1', createdBy: 'User1', projectName: 'Project1' },
-    ]);
+    const [tasks, setTasks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState('all');
     const [projectFilter, setProjectFilter] = useState(project_id || 'all');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                let org_id = localStorage.getItem("org_id");
+                console.log('https://localhost:7260/api/Organisation/Tasks' + '/' + org_id);
+                const response = await axios.get('https://localhost:7260/api/Organisation/Tasks', {
+                    params: { organization: org_id } // Add the project_id as a query parameter
+                });
+                setTasks(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError(err);
+                setLoading(false);
+            }
+        };
+
+        fetchTasks();
+    }, []);
 
     useEffect(() => {
         if (project_id) {
@@ -26,9 +44,17 @@ const Task = () => {
     const filteredTasks = tasks.filter(task => {
         const matchesSearch = task.id.toString().includes(searchTerm) || task.title.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesFilter = filter === 'all' || (filter === 'assignedToMe' && task.assignedTo === current_user) || (filter === 'createdByMe' && task.createdBy === current_user);
-        const matchesProjectFilter = projectFilter === 'all' || task.projectName === projectFilter;
+        const matchesProjectFilter = projectFilter === 'all' || task.projectId === projectFilter;
         return matchesSearch && matchesFilter && matchesProjectFilter;
     });
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
     return (
         <div>
