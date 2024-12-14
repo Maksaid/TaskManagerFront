@@ -27,3 +27,7 @@
     background-color: #d0d0d0;
 
 }
+
+.project-card .edit-button {
+    margin-left: 10px; /* Небольшой отступ слева от кнопки */
+}

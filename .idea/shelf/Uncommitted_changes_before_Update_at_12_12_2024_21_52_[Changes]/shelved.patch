@@ -1,0 +1,237 @@
+Index: src/components/Home.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from 'react';\r\nimport axios from 'axios';\r\nimport Project from './Project'; // Make sure to import your Project component\r\nimport ims from '../images/images.png'\r\nimport ims2 from '../images/logo512.png'\r\nimport 'bootstrap/dist/css/bootstrap.min.css'\r\nimport {Link} from \"react-router-dom\";\r\n\r\nconst Home = () => {\r\n    const org_id = localStorage.getItem(\"org_id\");\r\n    const [projects, setProjects] = useState([]);\r\n    const [loading, setLoading] = useState(true);\r\n    const [error, setError] = useState(null);\r\n\r\n    useEffect(() => {\r\n        const fetchProjects = async () => {\r\n            console.log('https://localhost:7260/api/Organisation/' + org_id)\r\n            try {\r\n                const response = await axios.get('https://localhost:7260/api/Organisation/' + org_id); // Replace with your API endpoint\r\n                setProjects(response.data.projects);\r\n                localStorage.setItem(\"project\", JSON.stringify(projects));\r\n                setLoading(false);\r\n            } catch (err) {\r\n                //setError(err);\r\n                setProjects([{image_path : (ims), project_name : \"project\", project_id : \"1\"}, {image_path : ims2, project_name : \"images.png\", project_id : \"2\"},{image_path : ims, project_name : \"../images/logo512.png\", project_id : \"3\"},{image_path : ims2, project_name : \"../images/images.png\", project_id : \"4\"}])\r\n                setLoading(false);\r\n            }\r\n        };\r\n\r\n        fetchProjects();\r\n    }, []);\r\n\r\n    if (loading) {\r\n        return <div>Loading...</div>;\r\n    }\r\n\r\n    if (error) {\r\n        return <div>Error: {error.message}</div>;\r\n    }\r\n\r\n\r\n    return (\r\n        <div>\r\n            <h1 className=\"m-5\">Tasker incorporation</h1>\r\n            <h3 className=\"m-4\">Projects:</h3>\r\n            {projects.map((project, index) => (\r\n                <Link key={index} to={`/tasks/${project.project_id}`} className=\"text-decoration-none\">\r\n                    <Project img_path={project.image_path} projectName={project.project_name} project_id={project.project_id} />\r\n                </Link>\r\n            ))}\r\n        </div>\r\n    );\r\n};\r\n\r\nexport default Home;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Home.js b/src/components/Home.js
+--- a/src/components/Home.js	
++++ b/src/components/Home.js	
+@@ -1,10 +1,10 @@
+ import React, { useEffect, useState } from 'react';
+ import axios from 'axios';
+-import Project from './Project'; // Make sure to import your Project component
+-import ims from '../images/images.png'
+-import ims2 from '../images/logo512.png'
+-import 'bootstrap/dist/css/bootstrap.min.css'
+-import {Link} from "react-router-dom";
++import Project from './Project';
++import ims from '../images/images.png';
++import ims2 from '../images/logo512.png';
++import 'bootstrap/dist/css/bootstrap.min.css';
++import { Link } from 'react-router-dom';
+ 
+ const Home = () => {
+     const org_id = localStorage.getItem("org_id");
+@@ -12,17 +12,28 @@
+     const [loading, setLoading] = useState(true);
+     const [error, setError] = useState(null);
+ 
++    // Состояния для создания и редактирования проектов
++    const [newProjectName, setNewProjectName] = useState('');
++    const [editProjectId, setEditProjectId] = useState(null);
++    const [editProjectName, setEditProjectName] = useState('');
++
+     useEffect(() => {
++        // Функция для получения списка проектов
+         const fetchProjects = async () => {
+-            console.log('https://localhost:7260/api/Organisation/' + org_id)
++            console.log('https://localhost:7260/api/Organisation/' + org_id);
+             try {
+-                const response = await axios.get('https://localhost:7260/api/Organisation/' + org_id); // Replace with your API endpoint
++                const response = await axios.get('https://localhost:7260/api/Organisation/' + org_id); // Замените на реальный API-адрес
+                 setProjects(response.data.projects);
+-                localStorage.setItem("project", JSON.stringify(projects));
++                localStorage.setItem("project", JSON.stringify(response.data.projects));
+                 setLoading(false);
+             } catch (err) {
+-                //setError(err);
+-                setProjects([{image_path : (ims), project_name : "project", project_id : "1"}, {image_path : ims2, project_name : "images.png", project_id : "2"},{image_path : ims, project_name : "../images/logo512.png", project_id : "3"},{image_path : ims2, project_name : "../images/images.png", project_id : "4"}])
++                // В случае ошибки используем временные данные
++                setProjects([
++                    { image_path: ims, project_name: "project", project_id: "1" },
++                    { image_path: ims2, project_name: "images.png", project_id: "2" },
++                    { image_path: ims, project_name: "../images/logo512.png", project_id: "3" },
++                    { image_path: ims2, project_name: "../images/images.png", project_id: "4" }
++                ]);
+                 setLoading(false);
+             }
+         };
+@@ -30,26 +41,114 @@
+         fetchProjects();
+     }, []);
+ 
++    // Функция для создания нового проекта
++    const handleCreateProject = async () => {
++        if (!newProjectName.trim()) return;
++
++        try {
++            const response = await axios.post('https://localhost:7260/api/Project', {
++                name: newProjectName,
++                org_id
++            });
++            setProjects([...projects, response.data]); // Добавляем новый проект в список
++            setNewProjectName(''); // Очищаем поле ввода
++        } catch (error) {
++            console.error('Ошибка при создании проекта:', error);
++        }
++    };
++
++    // Функция для редактирования проекта
++    const handleEditProject = async (projectId) => {
++        if (!editProjectName.trim()) return;
++
++        try {
++            await axios.put(`https://localhost:7260/api/Project/${projectId}`, {
++                name: editProjectName
++            });
++            setProjects(projects.map(project =>
++                project.project_id === projectId
++                    ? { ...project, project_name: editProjectName }
++                    : project
++            ));
++            setEditProjectId(null); // Выход из режима редактирования
++            setEditProjectName(''); // Очищаем поле ввода
++        } catch (error) {
++            console.error('Ошибка при редактировании проекта:', error);
++        }
++    };
++
+     if (loading) {
+-        return <div>Loading...</div>;
++        return <div>Загрузка...</div>;
+     }
+ 
+     if (error) {
+-        return <div>Error: {error.message}</div>;
++        return <div>Ошибка: {error.message}</div>;
+     }
+-
+ 
+     return (
+         <div>
+             <h1 className="m-5">Tasker incorporation</h1>
+-            <h3 className="m-4">Projects:</h3>
++            <h3 className="m-4">Проекты:</h3>
++
++            {/* Блок для создания нового проекта */}
++            <div className="m-4">
++                <input
++                    type="text"
++                    placeholder="Название нового проекта"
++                    value={newProjectName}
++                    onChange={(e) => setNewProjectName(e.target.value)}
++                    className="form-control d-inline w-50"
++                />
++                <button
++                    onClick={handleCreateProject}
++                    className="btn btn-primary ms-2"
++                >
++                    Создать проект
++                </button>
++            </div>
++
+             {projects.map((project, index) => (
+-                <Link key={index} to={`/tasks/${project.project_id}`} className="text-decoration-none">
+-                    <Project img_path={project.image_path} projectName={project.project_name} project_id={project.project_id} />
+-                </Link>
++                <div key={index} className="mb-3">
++                    <Link to={`/tasks/${project.project_id}`} className="text-decoration-none">
++                        <Project img_path={project.image_path} projectName={project.project_name} project_id={project.project_id} />
++                    </Link>
++                    {/* Блок для редактирования проекта */}
++                    {editProjectId === project.project_id ? (
++                        <div className="mt-2">
++                            <input
++                                type="text"
++                                value={editProjectName}
++                                onChange={(e) => setEditProjectName(e.target.value)}
++                                className="form-control d-inline w-50"
++                            />
++                            <button
++                                onClick={() => handleEditProject(project.project_id)}
++                                className="btn btn-success ms-2"
++                            >
++                                Сохранить
++                            </button>
++                            <button
++                                onClick={() => setEditProjectId(null)}
++                                className="btn btn-secondary ms-2"
++                            >
++                                Отмена
++                            </button>
++                        </div>
++                    ) : (
++                        <button
++                            onClick={() => {
++                                setEditProjectId(project.project_id);
++                                setEditProjectName(project.project_name);
++                            }}
++                            className="btn btn-warning ms-3"
++                        >
++                            Редактировать проект
++                        </button>
++                    )}
++                </div>
+             ))}
+         </div>
+     );
+ };
+ 
+-export default Home;
+\ No newline at end of file
++export default Home;
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"cf765717-7475-4eb2-a06e-955c2f493e7b\" name=\"Changes\" comment=\"status transitions\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/components/LoginPage.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/AppRoutes.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/AppRoutes.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Home.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Home.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/NavBar.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/NavBar.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Project.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Project.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Task.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Task.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/TaskDetail.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/TaskDetail.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"CSS File\" />\r\n        <option value=\"JavaScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2oyNBHdYFqmf58shyU5ixQm774h\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images&quot;,\r\n    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\maksaid1972\\WebstormProjects\\TaskManagerFront\\src\\images\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\maksaid1972\\WebstormProjects\\TaskManagerFront\\src\\images\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"cf765717-7475-4eb2-a06e-955c2f493e7b\" name=\"Changes\" comment=\"\" />\r\n      <created>1731837718085</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1731837718085</updated>\r\n      <workItem from=\"1731837719345\" duration=\"8835000\" />\r\n      <workItem from=\"1732118679268\" duration=\"625000\" />\r\n      <workItem from=\"1732219533095\" duration=\"3461000\" />\r\n      <workItem from=\"1732474896719\" duration=\"7397000\" />\r\n      <workItem from=\"1733256493959\" duration=\"5592000\" />\r\n      <workItem from=\"1733317416145\" duration=\"1129000\" />\r\n      <workItem from=\"1733576186155\" duration=\"10410000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"init\">\r\n      <created>1731841969889</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1731841969889</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"improvements\">\r\n      <created>1731850131941</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1731850131941</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"tasks styles\">\r\n      <created>1731873886477</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1731873886477</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"tasks styles\">\r\n      <created>1732119093834</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1732119093834</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"status transitions\">\r\n      <created>1733317469241</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733317469241</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"status transitions\">\r\n      <created>1733317654149</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733317654149</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"7\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"init\" />\r\n    <MESSAGE value=\"improvements\" />\r\n    <MESSAGE value=\"temp\" />\r\n    <MESSAGE value=\"tasks styles\" />\r\n    <MESSAGE value=\"status transitions\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"status transitions\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,14 +5,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="cf765717-7475-4eb2-a06e-955c2f493e7b" name="Changes" comment="status transitions">
+-      <change afterPath="$PROJECT_DIR$/src/components/LoginPage.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/AppRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppRoutes.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavBar.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Project.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Task.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/TaskDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskDetail.js" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -34,6 +28,9 @@
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+   </component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 4
++}</component>
+   <component name="ProjectId" id="2oyNBHdYFqmf58shyU5ixQm774h" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+@@ -43,6 +40,7 @@
+   &quot;keyToString&quot;: {
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+     &quot;last_opened_file_path&quot;: &quot;C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images&quot;,
+     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+@@ -76,6 +74,9 @@
+       <workItem from="1733256493959" duration="5592000" />
+       <workItem from="1733317416145" duration="1129000" />
+       <workItem from="1733576186155" duration="10410000" />
++      <workItem from="1733848139048" duration="205000" />
++      <workItem from="1734017710445" duration="1140000" />
++      <workItem from="1734029189500" duration="324000" />
+     </task>
+     <task id="LOCAL-00001" summary="init">
+       <created>1731841969889</created>

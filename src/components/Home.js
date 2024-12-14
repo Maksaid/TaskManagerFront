@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Project from './Project'; // Make sure to import your Project component
-import ims from '../images/images.png'
-import ims2 from '../images/logo512.png'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import {Link} from "react-router-dom";
+import Project from './Project';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
+    const navigate = useNavigate(); // Для перенаправления при нажатии кнопок
     localStorage.setItem("org_id", "1");
     const org_id = localStorage.getItem("org_id") === "0" ? 1 : localStorage.getItem("org_id");
     const [projects, setProjects] = useState([]);
@@ -18,20 +17,27 @@ const Home = () => {
         const fetchProjects = async () => {
             console.log('https://localhost:7260/api/Organisation/' + org_id);
             try {
-                const response = await axios.get('https://localhost:7260/api/Organisation/' + org_id); // Replace with your API endpoint
+                const response = await axios.get('https://localhost:7260/api/Organisation/' + org_id);
                 setProjects(response.data.projects);
                 setOrgName(response.data.name);
                 localStorage.setItem("projects", JSON.stringify(response.data.projects));
                 setLoading(false);
             } catch (err) {
                 setError(err);
-                //setProjects([{image_path : (ims), project_name : "project", project_id : "1"}, {image_path : ims2, project_name : "images.png", project_id : "2"},{image_path : ims, project_name : "../images/logo512.png", project_id : "3"},{image_path : ims2, project_name : "../images/images.png", project_id : "4"}])
                 setLoading(false);
             }
         };
 
         fetchProjects();
     }, []);
+
+    const handleCreateProject = () => {
+        navigate('/create-project'); // Перенаправление на страницу создания проекта
+    };
+
+    const handleEditProject = (projectId) => {
+        navigate(`/edit-project/${projectId}`); // Перенаправление на страницу редактирования проекта
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -41,15 +47,25 @@ const Home = () => {
         return <div>Error: {error.message}</div>;
     }
 
-
     return (
         <div>
             <h1 className="m-5">{orgName}</h1>
             <h3 className="m-5">Projects:</h3>
+            <div className="m-4">
+                <button
+                    className="btn btn-primary"
+                    onClick={handleCreateProject}
+                >
+                    Create Project
+                </button>
+            </div>
             {projects.map((project, index) => (
-                <Link key={index} to={`/tasks/${project.id}`} className="text-decoration-none">
-                    <Project projectName={project.name} />
-                </Link>
+                <div key={index} className="m-3">
+                    <Project
+                        projectName={project.name}
+                        onEdit={() => handleEditProject(project.id)}
+                    />
+                </div>
             ))}
         </div>
     );
