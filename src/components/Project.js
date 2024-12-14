@@ -4,15 +4,13 @@ import './Project.css';
 const Project = ({ projectName, onEdit }) => {
     return (
         <div className="project-card">
-            <div className="d-flex justify-content-between align-items-center">
-                <h1 className="project-name">{projectName}</h1>
-                <button
-                    className="btn btn-secondary edit-button" // Теперь используем кастомный класс для отступа
-                    onClick={onEdit}
-                >
-                    Edit
-                </button>
-            </div>
+            <h1 className="project-name">{projectName}</h1>
+            <button
+                className="btn btn-secondary edit-button"
+                onClick={onEdit}
+            >
+                Edit
+            </button>
         </div>
     );
 };
