@@ -2,12 +2,20 @@ import './Project.css';
 // src/components/Project.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Project = ({ projectName, projectId }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newProjectName, setNewProjectName] = useState(projectName);
     const [projId, setProjectId] = useState(projectId);
     let org_id = localStorage.getItem("org_id");
+
+    const navigate = useNavigate();
+
+    const handleProjectClick = () => {
+        navigate(`/tasks/${projectId}`);
+    };
     const handleEditClick = () => {
         setIsEditing(!isEditing);
     };
@@ -34,7 +42,7 @@ const Project = ({ projectName, projectId }) => {
     };
 
     return (
-        <div className="project-card">
+        <div className="project-card" >
             {isEditing ? (
                 <div className="d-flex justify-content-evenly">
                     <input
@@ -46,7 +54,7 @@ const Project = ({ projectName, projectId }) => {
                     <button className="btn btn-success" onClick={handleSave}>Save</button>
                 </div>
             ) : (
-                <h1 className="project-name">{newProjectName}</h1>
+                <h1 className="project-name" onClick={handleProjectClick}>{newProjectName}</h1>
             )}
             <button
                 className="btn btn-secondary edit-button"

@@ -5,8 +5,7 @@ import axios from 'axios';
 
 const Task = () => {
     const { project_id } = useParams();
-    let projects = JSON.parse(localStorage.getItem("projects"));
-    console.log(projects);
+    let org_id = localStorage.getItem("org_id");
 
     const current_user = localStorage.getItem("user_id");
     const [tasks, setTasks] = useState([]);
@@ -15,14 +14,24 @@ const Task = () => {
     const [projectFilter, setProjectFilter] = useState(project_id || 'all');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [projects, setProjects] = useState([]);
 
     useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get('https://localhost:7260/api/Organisation/' + org_id);
+                setProjects(response.data.projects);
+                setLoading(false);
+            } catch (err) {
+                setError(err);
+                setLoading(false);
+            }
+        };
+
         const fetchTasks = async () => {
             try {
-                let org_id = localStorage.getItem("org_id");
-                console.log('https://localhost:7260/api/Organisation/Tasks' + '/' + org_id);
                 const response = await axios.get('https://localhost:7260/api/Organisation/Tasks', {
-                    params: { organization: org_id } // Add the project_id as a query parameter
+                    params: { organization: org_id } // Add the organization as a query parameter
                 });
                 setTasks(response.data);
                 setLoading(false);
@@ -33,6 +42,7 @@ const Task = () => {
         };
 
         fetchTasks();
+        fetchProjects();
     }, []);
 
     useEffect(() => {
@@ -68,20 +78,27 @@ const Task = () => {
                 className="m-4"
                 style={{ width: '400px' }}
             />
-            <div>
-                <button onClick={() => setFilter('all')} className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-secondary'} m-2`}>All Tasks</button>
-                <button onClick={() => setFilter('assignedToMe')} className={`btn ${filter === 'assignedToMe' ? 'btn-primary' : 'btn-secondary'} m-2`}>Assigned to Me</button>
-                <button onClick={() => setFilter('createdByMe')} className={`btn ${filter === 'createdByMe' ? 'btn-primary' : 'btn-secondary'} m-2`}>Created by Me</button>
-                <button onClick={() => setProjectFilter('all')} className={`btn ${projectFilter === 'all' ? 'btn-primary' : 'btn-secondary'} m-2`}>All Projects</button>
-                {projects.map((project, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setProjectFilter(project.name)}
-                        className={`btn ${projectFilter === project.name ? 'btn-primary' : 'btn-secondary'} m-2`}
-                    >
-                        {project.name}
+            <div className="d-flex justify-content-between">
+                <div>
+                    <button onClick={() => setFilter('all')} className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-secondary'} m-2`}>All Tasks</button>
+                    <button onClick={() => setFilter('assignedToMe')} className={`btn ${filter === 'assignedToMe' ? 'btn-primary' : 'btn-secondary'} m-2`}>Assigned to Me</button>
+                    <button onClick={() => setFilter('createdByMe')} className={`btn ${filter === 'createdByMe' ? 'btn-primary' : 'btn-secondary'} m-2`}>Created by Me</button>
+                </div>
+                <div>
+                    <button onClick={() => setProjectFilter('all')}
+                            className={`btn ${projectFilter === 'all' ? 'btn-primary' : 'btn-secondary'} m-2`}>All
+                        Projects
                     </button>
-                ))}
+                    {projects.map((project, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setProjectFilter(project.id)}
+                            className={`btn ${projectFilter == project.id ? 'btn-primary' : 'btn-secondary'} m-2`}
+                        >
+                            {project.name}
+                        </button>
+                    ))}
+                </div>
             </div>
             <div className="flex-column m-lg-2 m-4 d-flex">
                 {filteredTasks.map(task => (
