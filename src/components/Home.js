@@ -34,7 +34,7 @@ const Home = () => {
     }, []);
 
     const handleCreateProject = () => {
-        setIsCreating(true);
+        setIsCreating(!isCreating);
     };
 
     const handleInputChange = (e) => {
