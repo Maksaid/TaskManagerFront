@@ -153,7 +153,7 @@ const CreateTask = () => {
                     >
                         <option value="">Select an assignee</option>
                         {availableCollaborators.map(collaborator => (
-                            <option key={collaborator.id} value={collaborator.fullName}>
+                            <option key={collaborator.id} value={collaborator.id}>
                                 {collaborator.fullName}
                             </option>
                         ))}
