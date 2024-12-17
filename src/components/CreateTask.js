@@ -44,6 +44,7 @@ const CreateTask = () => {
                 setAvailableCollaborators(defaultCollaborators);
             }
         };
+        console.log(availableCollaborators);
 
         fetchData();
 
@@ -63,6 +64,7 @@ const CreateTask = () => {
             Collaborators: collaborators,
             Assignee: assignee
         };
+
         console.log('Task created:', newTask);
         // You can add logic to save the task to the server here
         navigate('/tasks'); // Navigate back to the tasks page
@@ -104,8 +106,8 @@ const CreateTask = () => {
                     >
                         <option value="">Select a status</option>
                         {statuses.map(status => (
-                            <option key={status.id} value={status.name}>
-                                {status.name}
+                            <option key={status.id} value={status.Name}>
+                                {status.Name}
                             </option>
                         ))}
                     </select>

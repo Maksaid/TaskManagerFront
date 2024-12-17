@@ -23,7 +23,7 @@ const Task = () => {
                 setProjects(response.data.projects);
                 setLoading(false);
             } catch (err) {
-                setError(err);
+                //setError(err);
                 setLoading(false);
             }
         };

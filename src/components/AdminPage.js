@@ -12,6 +12,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import {SketchPicker} from 'react-color';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminPageUsersAndRoles from "./AdminPageUsersAndRoles";
 
 const AdminPage = () => {
     //const defaultStatuses = ['Draft', 'Analytics', 'Development', 'Testing'];
@@ -331,87 +332,7 @@ const AdminPage = () => {
                         <button className="btn btn-success" onClick={handleAddStatus}>Add Status</button>
                     </div>
                 </div>
-                <h2 className="mb-4">Users</h2>
-                <div className="d-flex flex-row justify-content-between w-25">
-                    <ul className="list-unstyled">
-                        {users.map((user, index) => (
-                            <li key={user.id} className="mb-2">{user.name}</li>
-                        ))}
-                    </ul>
-                </div>
-                <h2 className="mb-4">Users</h2>
-                <div className="mb-4">
-                    <ul className="list-unstyled">
-                        {users.map((user) => (
-                            <li key={user.id} className="d-flex align-items-center justify-content-between mb-2">
-                                <span>{user.name}</span>
-                                <div className="d-flex align-items-center">
-                                    <select
-                                        value={user.roleId || ''}
-                                        onChange={(e) => {
-                                            const newRole = e.target.value;
-                                            handleUserRoleUpdate(user.id, newRole);
-                                        }}
-                                        className="form-select me-2"
-                                    >
-                                        <option value="">Select Role</option>
-                                        {roles.map((role) => (
-                                            <option key={role.id} value={role.id}>
-                                                {role.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => handleEditUser(user.id)}
-                                    >
-                                        Edit
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Roles Section */}
-                <h2 className="mb-4">Roles</h2>
-                <div className="mb-4">
-                    <h3>Add New Role</h3>
-                    <div className="d-flex align-items-center mb-3">
-                        <input
-                            type="text"
-                            placeholder="Role Name"
-                            value={newRoleName}
-                            onChange={(e) => setNewRoleName(e.target.value)}
-                            className="form-control me-2"
-                        />
-                        <button className="btn btn-success" onClick={handleAddRole}>
-                            Add Role
-                        </button>
-                    </div>
-                    <h3>Existing Roles</h3>
-                    <ul className="list-unstyled">
-                        {roles.map((role) => (
-                            <li key={role.id} className="d-flex align-items-center justify-content-between mb-2">
-                                <span>{role.name}</span>
-                                <div>
-                                    <button
-                                        className="btn btn-secondary me-2"
-                                        onClick={() => handleEditRole(role.id)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => handleDeleteRole(role.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <AdminPageUsersAndRoles/>
             </section>
         </div>
     );
