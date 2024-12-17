@@ -119,7 +119,7 @@ const CreateTask = () => {
                     >
                         <option value="">Select a status</option>
                         {statuses.map(status => (
-                            <option key={status.id} value={status.name}>
+                            <option key={status.id} value={status.id}>
                                 {status.name}
                             </option>
                         ))}
