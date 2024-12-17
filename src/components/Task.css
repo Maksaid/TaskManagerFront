@@ -1,0 +1,33 @@
+.task-table {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    padding: 10px;
+    row-gap: 10px;
+}
+
+.task-row {
+    display: contents; /* This makes the row itself not a grid item */
+}
+
+.task-header {
+    font-weight: bold;
+    background-color: #f0f0f0; /* Optional: different background for header */
+}
+
+.task-link {
+    text-decoration: none;
+    color: black;
+    display: contents; /* This makes the link itself not a grid item */
+}
+
+.task-cell {
+    border: 1px solid black;
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+}
+
+.task-row:not(.task-header) {
+    border-radius: 5px;
+    overflow: hidden; /* Ensure the border-radius is applied correctly */
+}

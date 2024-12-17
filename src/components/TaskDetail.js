@@ -37,6 +37,7 @@ const defaultCollaborators = [
 
 const TaskDetail = () => {
     let { taskId } = useParams();
+    let org_id = localStorage.getItem("org_id");
     const [entity, setEntity] = useState(defaultEntity);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -50,15 +51,17 @@ const TaskDetail = () => {
             .then(response => {
                 console.log(response);
                 setEntity(response.data);
-                setStatuses(response.data.status);
-                setAvailableCollaborators(response.data.collaborators);
+                //setStatuses(response.data.status);
+                //setAvailableCollaborators(response.data.collaborators);
             })
             .catch(error => {
                 console.error('Error fetching entity data:', error);
                 //setError(error);
             });
 
-        axios.get('https://api.example.com/statuses')
+        axios.get('https://localhost:7260/api/Organisation/Statuses', {
+            params: {organization: org_id} // Add the organizationId as a query parameter
+        })
             .then(response => {
                 setStatuses(response.data);
             })
@@ -70,7 +73,9 @@ const TaskDetail = () => {
                 setLoading(false);
             });
 
-        axios.get('https://api.example.com/collaborators')
+        axios.get('https://localhost:7260/api/Organisation/Users', {
+            params: { organization: org_id } // Add the organizationId as a query parameter
+        })
             .then(response => {
                 setAvailableCollaborators(response.data);
             })
@@ -154,11 +159,11 @@ const TaskDetail = () => {
                         onChange={(e) => handleAddCollaborator(availableCollaborators.find(c => c.Name === e.target.value))}
                     >
                         <option value="">Select a collaborator</option>
-                        {availableCollaborators.map(collaborator => (
+                        {/*{availableCollaborators.map(collaborator => (
                             <option key={collaborator.Id} value={collaborator.Name}>
                                 {collaborator.Name}
                             </option>
-                        ))}
+                        ))}*/}
                     </select>
                     <button className="btn btn-success" onClick={() => {}}>Add Collaborator</button>
                 </div>
