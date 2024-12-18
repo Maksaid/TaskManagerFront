@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import './Task.css'
 
 const Task = () => {
     const { project_id } = useParams();
@@ -23,7 +24,7 @@ const Task = () => {
                 setProjects(response.data.projects);
                 setLoading(false);
             } catch (err) {
-                setError(err);
+                //setError(err);
                 setLoading(false);
             }
         };
@@ -35,6 +36,7 @@ const Task = () => {
                 });
                 setTasks(response.data);
                 setLoading(false);
+                console.log(response.data)
             } catch (err) {
                 setError(err);
                 setLoading(false);
@@ -46,9 +48,11 @@ const Task = () => {
     }, []);
 
     useEffect(() => {
-        if (project_id) {
+        if (project_id !== 'none') {
             setProjectFilter(project_id);
-        }
+        }else
+            setProjectFilter('all');
+
     }, [project_id]);
 
     const filteredTasks = tasks.filter(task => {
@@ -100,13 +104,25 @@ const Task = () => {
                     ))}
                 </div>
             </div>
-            <div className="flex-column m-lg-2 m-4 d-flex">
+            <div className="task-table">
+                <div className="task-row task-header">
+                    <div className="task-column-cell">Title</div>
+                    <div className="task-column-cell">Project</div>
+                    <div className="task-column-cell">Assignee</div>
+                    <div className="task-column-cell">Status</div>
+                </div>
                 {filteredTasks.map(task => (
-                    <div className="flex-row border-black d-flex m-2 border rounded-1 p-2" key={task.id}>
-                        <Link className="text-black text-decoration-none d-flex justify-content-start w-100 flex-row" to={`/task/${task.id}`}>
-                            <div className="m-3">{task.title}</div>
-                            <div className="m-3">{task.projectName}</div>
-                            <div className="m-3">Assigned to {task.assignedTo}</div>
+                    <div className="task-row" key={task.id}>
+                        <Link className="task-link" to={`/task/${task.id}`}>
+                            <div className="task-cell rounded-start-2 task-cell-side-left">{task.title}</div>
+                            <div className="task-cell">{task.projectName}</div>
+                            <div className="task-cell">{task.assigneeName}</div>
+                            <div
+                                className="task-cell rounded-end-2 task-cell-side-right"
+                                style={{ backgroundColor: task.status?.color || '#ffffff' }}
+                            >
+                                {task.status?.name || 'No Status'}
+                            </div>
                         </Link>
                     </div>
                 ))}

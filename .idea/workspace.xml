@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf765717-7475-4eb2-a06e-955c2f493e7b" name="Changes" comment="log_in page">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AdminPageUsersAndRoles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Task.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/TaskComments.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AdminPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdminPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CommitHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CommitHistory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateTask.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateTask.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Profile.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Project.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Project.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Task.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TaskDescription.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskDescription.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TaskDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,23 +46,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging main",
+    "last_opened_file_path": "C:/Users/maksaid1972/WebstormProjects/TaskManagerFront/src/images",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\maksaid1972\WebstormProjects\TaskManagerFront\src\images" />
@@ -87,6 +95,7 @@
       <workItem from="1734248476595" duration="303000" />
       <workItem from="1734356986439" duration="3627000" />
       <workItem from="1734366900343" duration="22000" />
+      <workItem from="1734526220095" duration="297000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1731841969889</created>

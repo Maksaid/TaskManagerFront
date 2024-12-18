@@ -1,4 +1,3 @@
-js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -82,8 +81,6 @@ const CreateTask = () => {
             console.error('Error adding task:', error.response ? error.response.data : error.message);
         }
     };
-
-
     return (
         <div className="container mt-4">
             <h2 className="mb-3">Create New Task</h2>
