@@ -25,7 +25,7 @@ const CreateTask = () => {
     const [availableProjects, setAvailableProjects] = useState([]);
     const [availableCollaborators, setAvailableCollaborators] = useState([]);
     const navigate = useNavigate();
-    localStorage.setItem("user_id", "4");
+    localStorage.setItem("user_id", "1");
     let current_user = (localStorage.getItem("user_id"));
 
     useEffect(() => {
@@ -56,6 +56,7 @@ const CreateTask = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
 
         // Task object to send to the API
         const newTask = {

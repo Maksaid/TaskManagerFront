@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './CommitHistory.css'; // Import the CSS file
 
-const CommitHistory = ({ owner, repo, branch }) => {
+const CommitHistory = ({ commitHistory }) => {
     const [commits, setCommits] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://api.github.com/repos/${owner}/${repo}/commits?sha=${branch}`)
+        console.log(commitHistory)
+        if(commitHistory != null){
+        axios.get(`https://api.github.com/repos/${commitHistory.repositoryOwner}/${commitHistory.repositoryName}/commits?sha=${commitHistory.branch}`)
             .then(response => {
                 setCommits(response.data);
             })
@@ -19,8 +21,8 @@ const CommitHistory = ({ owner, repo, branch }) => {
             })
             .finally(() => {
                 setLoading(false);
-            });
-    }, [owner, repo, branch]);
+            });}
+    }, [commitHistory]);
 
     if (loading) {
         return <div>Loading...</div>;
