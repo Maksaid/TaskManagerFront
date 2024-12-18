@@ -27,7 +27,7 @@ const TaskComments = ({ taskId, task_comments }) => {
         <div className="mt-4">
             <h3>Comments</h3>
             <ul className="list-group mb-3">
-                {comments.map(comment => (
+                {comments != null && comments.map(comment => (
                     <li key={comment.id} className="list-group-item">
                         <strong>{comment.commenterName}:</strong> {comment.text}
                     </li>

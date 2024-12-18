@@ -16,13 +16,15 @@ const TaskDescription = ({ isEditing, entity, setEntity, assignees, handleSave }
         const fetchData = async () => {
             try {
                 const orgId = localStorage.getItem("org_id");
+                console.log(entity)
                 const [statusesResponse, organizationResponse, usersResponse] = await Promise.all([
-                    axios.get('https://localhost:7260/api/Organisation/Statuses', { params: { organization: orgId } }),
+                    axios.get(`https://localhost:7260/api/StatusTransition/GetStatusTransitionsToFrom?statusId=${entity.statusId}`),
                     axios.get(`https://localhost:7260/api/Organisation/${orgId}`),
                     axios.get('https://localhost:7260/api/Organisation/Users', { params: { organization: orgId } }),
                 ]);
 
                 setStatuses(statusesResponse.data);
+                console.log(statusesResponse.data)
                 setAvailableProjects(organizationResponse.data.projects);
                 setAvailableCollaborators(usersResponse.data);
             } catch (err) {

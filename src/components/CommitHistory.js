@@ -11,7 +11,8 @@ const CommitHistory = ({ commitHistory }) => {
     useEffect(() => {
         console.log(commitHistory)
         if(commitHistory != null){
-        axios.get(`https://api.github.com/repos/${commitHistory.repositoryOwner}/${commitHistory.repositoryName}/commits?sha=${commitHistory.branch}`)
+            console.log(`https://api.github.com/repos/${commitHistory.repositoryOwner}/${commitHistory.repositoryName}/commits?sha=${commitHistory.branchName}`);
+        axios.get(`https://api.github.com/repos/${commitHistory.repositoryOwner}/${commitHistory.repositoryName}/commits?sha=${commitHistory.branchName}`)
             .then(response => {
                 setCommits(response.data);
             })
