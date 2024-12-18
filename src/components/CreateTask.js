@@ -25,7 +25,6 @@ const CreateTask = () => {
     const [availableProjects, setAvailableProjects] = useState([]);
     const [availableCollaborators, setAvailableCollaborators] = useState([]);
     const navigate = useNavigate();
-    localStorage.setItem("user_id", "1");
     let current_user = (localStorage.getItem("user_id"));
 
     useEffect(() => {

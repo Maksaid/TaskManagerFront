@@ -4,25 +4,27 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('stringstr');
+    const [password, setPassword] = useState('stringG!1');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://api.example.com/login', { email, password }); // Replace with your API endpoint
-            if (response.data.success) {
+            const response = await axios.post('https://localhost:7260/api/Auth/Login', { email, password });
+            console.log(response);
+            if (response.status == 200) {
                 // Save token or user info if needed
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem("user_id", response.data.id);
+                localStorage.setItem("org_id", response.data.organizationId);
 
                 navigate('/home');
             } else {
                 setError('Login failed. Please check your credentials.');
             }
         } catch (err) {
-            setError('Login failed. Please check your credentials.');
+            setError('Login failed. Please check your credentialseoierjtioerjiteriotjreite.');
         }
     };
 
@@ -38,7 +40,6 @@ const LoginPage = () => {
                                 <div className="form-group">
                                     <label htmlFor="email">Email</label>
                                     <input
-                                        type="email"
                                         className="form-control"
                                         id="email"
                                         value={email}
