@@ -9,7 +9,7 @@ const CommitHistory = ({ owner, repo, branch }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://api.github.com/repos/NaMe2te/TaskManager/commits?sha=master`)
+        axios.get(`https://api.github.com/repos/${owner}/${repo}/commits?sha=${branch}`)
             .then(response => {
                 setCommits(response.data);
             })

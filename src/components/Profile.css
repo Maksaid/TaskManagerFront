@@ -34,3 +34,20 @@
 hr.my-4 {
     border-top: 2px solid #000;
 }
+.user-profile {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.tasks-section h2 {
+    font-weight: bold;
+}
+
+.list-group-item {
+    transition: transform 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.02);
+}

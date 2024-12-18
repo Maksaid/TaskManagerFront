@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 const AdminPageUsersAndRoles = () => {
@@ -18,7 +18,7 @@ const AdminPageUsersAndRoles = () => {
         const fetchRoles = async () => {
             try {
                 const response = await axios.get('https://localhost:7260/api/Organisation/Roles', {
-                    params: { organization: orgId },
+                    params: {organization: orgId},
                 });
                 setRoles(response.data);
             } catch (err) {
@@ -29,9 +29,10 @@ const AdminPageUsersAndRoles = () => {
         const fetchUsers = async () => {
             try {
                 const response = await axios.get('https://localhost:7260/api/Organisation/Users', {
-                    params: { organization: orgId },
+                    params: {organization: orgId},
                 });
                 setUsers(response.data);
+                console.log(response.data);
             } catch (err) {
                 console.error('Error fetching users:', err);
             }
@@ -79,15 +80,30 @@ const AdminPageUsersAndRoles = () => {
 
     // Update user's role
     const handleUpdateUserRole = async (userId, roleId) => {
+        // Find the user and create a new object with the updated roleId
+        const userToUpdate = users.find((user) => user.id === userId);
+        if (!userToUpdate) {
+            console.error('User not found!');
+            return;
+        }
+
+        const updatedUser = { ...userToUpdate, roleId }; // Create a new object with the updated roleId
+
         try {
-            await axios.put(`https://localhost:7260/api/Users/${userId}/Role`, { roleId });
+            // Send the updated user object to the API
+            await axios.put(`https://localhost:7260/api/User`, updatedUser);
+
+            // Update the state
             setUsers((prevUsers) =>
-                prevUsers.map((user) => (user.id === userId ? { ...user, roleId } : user))
+                prevUsers.map((user) => (user.id === userId ? updatedUser : user))
             );
+
+            console.log('User role updated successfully');
         } catch (err) {
             console.error('Error updating user role:', err);
         }
     };
+
 
     return (
         <div className="container mt-5">
@@ -120,6 +136,30 @@ const AdminPageUsersAndRoles = () => {
             {/* Users Section */}
             <section>
                 <h2>Users</h2>
+                <ul className="list-group">
+                    {users.map((user) => (
+                        <li key={user.id} className="list-group-item d-flex justify-content-between align-items-center">
+              <span>
+                {user.fullName} -{' '}
+                  {roles.find((role) => role.id === user.roleId)?.roleName || 'No Role Assigned'}
+              </span>
+                            <select
+                                value={user.roleId || ''}
+                                onChange={(e) => handleUpdateUserRole(user.id, e.target.value)}
+                                className="form-select"
+                                style={{width: '200px'}}
+                            >
+                                <option value="">Select Role</option>
+                                {roles.map((role) => (
+                                    <option key={role.id} value={role.id}>
+                                        {role.roleName}
+                                    </option>
+                                ))}
+                            </select>
+                        </li>
+                    ))}
+                </ul>
+                <br></br>
                 <div className="mb-3">
                     <input
                         type="text"
@@ -159,29 +199,7 @@ const AdminPageUsersAndRoles = () => {
                         Add User
                     </button>
                 </div>
-                <ul className="list-group">
-                    {users.map((user) => (
-                        <li key={user.id} className="list-group-item d-flex justify-content-between align-items-center">
-              <span>
-                {user.name} -{' '}
-                  {roles.find((role) => role.id === user.roleId)?.name || 'No Role Assigned'}
-              </span>
-                            <select
-                                value={user.roleId || ''}
-                                onChange={(e) => handleUpdateUserRole(user.id, e.target.value)}
-                                className="form-select"
-                                style={{ width: '200px' }}
-                            >
-                                <option value="">Select Role</option>
-                                {roles.map((role) => (
-                                    <option key={role.id} value={role.id}>
-                                        {role.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </li>
-                    ))}
-                </ul>
+
             </section>
         </div>
     );

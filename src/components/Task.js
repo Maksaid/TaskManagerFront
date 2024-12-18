@@ -106,18 +106,23 @@ const Task = () => {
             </div>
             <div className="task-table">
                 <div className="task-row task-header">
-                    <div className="task-cell">Title</div>
-                    <div className="task-cell">Project</div>
-                    <div className="task-cell">Assignee</div>
-                    <div className="task-cell">Status</div>
+                    <div className="task-column-cell">Title</div>
+                    <div className="task-column-cell">Project</div>
+                    <div className="task-column-cell">Assignee</div>
+                    <div className="task-column-cell">Status</div>
                 </div>
                 {filteredTasks.map(task => (
                     <div className="task-row" key={task.id}>
                         <Link className="task-link" to={`/task/${task.id}`}>
-                            <div className="task-cell rounded-start-2">{task.title}</div>
+                            <div className="task-cell rounded-start-2 task-cell-side-left">{task.title}</div>
                             <div className="task-cell">{task.projectName}</div>
                             <div className="task-cell">{task.assigneeName}</div>
-                            <div className="task-cell rounded-end-2">{task.statusName}</div>
+                            <div
+                                className="task-cell rounded-end-2 task-cell-side-right"
+                                style={{ backgroundColor: task.status?.color || '#ffffff' }}
+                            >
+                                {task.status?.name || 'No Status'}
+                            </div>
                         </Link>
                     </div>
                 ))}

@@ -4,6 +4,8 @@ import CommitHistory from './CommitHistory';
 import TaskDescription from './TaskDescription';
 import './TaskDetail.css';
 import { useParams } from "react-router-dom";
+import task from "./Task";
+import TaskComments from "./TaskComments";
 
 
 const TaskDetail = () => {
@@ -39,7 +41,6 @@ const TaskDetail = () => {
                 console.error('Error fetching statuses:', error);
                 //setStatuses(defaultStatuses);
             });
-
         // Fetch assignees (users)
         axios.get('https://localhost:7260/api/Organisation/Users', {
             params: { organization: org_id }
@@ -59,15 +60,8 @@ const TaskDetail = () => {
     const handleEdit = () => setIsEditing(true);
 
     const handleSave = () => {
-        console.log("sadasd", entity)
-        axios.put(`https://localhost:7260/api/Task/${entity.Id}`, entity)
-            .then(response => {
-                setEntity(response.data);
-                setIsEditing(false);
-            })
-            .catch(error => {
-                console.error('Error saving task details:', error);
-            });
+        setIsEditing(false);
+        taskId = taskId - 1 + 1;
     };
 
     if (loading) {
@@ -89,8 +83,12 @@ const TaskDetail = () => {
                 assignees={assignees} // Pass the assignees here
             />
             {!isEditing && <button className="btn btn-primary" onClick={handleEdit}>Edit</button>}
+            <TaskComments taskId={entity.id} task_comments={entity.comments} />
+
             <hr className="my-4" />
-            <CommitHistory />
+            <CommitHistory owner={entity.commitHistory.RepositoryOwner}
+                           branch={entity.commitHistory.BranchName}
+                           repo={entity.commitHistory.RepositoryName}/>
         </div>
     );
 };
