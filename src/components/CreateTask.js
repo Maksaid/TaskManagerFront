@@ -24,8 +24,9 @@ const CreateTask = () => {
     const [statuses, setStatuses] = useState([]);
     const [availableProjects, setAvailableProjects] = useState([]);
     const [availableCollaborators, setAvailableCollaborators] = useState([]);
-    const [currentUser, setCurrentUser] = useState('');
     const navigate = useNavigate();
+    localStorage.setItem("user_id", "4");
+    let current_user = (localStorage.getItem("user_id"));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,7 +61,7 @@ const CreateTask = () => {
         const newTask = {
             title: title,
             description: description,
-            createdBy: currentUser,
+            createdBy: current_user,
             projectId: project,
             assignedTo: assignee,
             statusId: status
@@ -81,6 +82,7 @@ const CreateTask = () => {
             console.error('Error adding task:', error.response ? error.response.data : error.message);
         }
     };
+
     return (
         <div className="container mt-4">
             <h2 className="mb-3">Create New Task</h2>
@@ -152,24 +154,6 @@ const CreateTask = () => {
                         <option value="">Select an assignee</option>
                         {availableCollaborators.map(collaborator => (
                             <option key={collaborator.id} value={collaborator.id}>
-                                {collaborator.fullName}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="currentUser" className="form-label">Current User</label>
-                    <select
-                        className="form-control"
-                        id="currentUser"
-                        value={currentUser}
-                        onChange={(e) => setCurrentUser(e.target.value)}
-                        required
-                    >
-                        <option value="">Select a user</option>
-                        {availableCollaborators.map(collaborator => (
-                            <option key={collaborator.id} value={collaborator.id}>
-
                                 {collaborator.fullName}
                             </option>
                         ))}

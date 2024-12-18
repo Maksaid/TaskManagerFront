@@ -12,17 +12,6 @@ const Profile = ({ userId }) => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-<<<<<<< HEAD
-                // Запрос на получение созданных задач
-                const createdTasksResponse = await axios.get(
-                    `https://localhost:7260/api/Task/GetTasksCreatedByUserId?userId=${userId}`
-                );
-                setCreatedTasks(createdTasksResponse.data);
-
-                // Запрос на получение назначенных задач
-                const assignedTasksResponse = await axios.get(
-                    `https://localhost:7260/api/Task/GetTasksAssignedToUserId?userId=${userId}`
-=======
                 // Fetch created tasks
                 const createdTasksResponse = await axios.get(
                     `https://localhost:7260/api/Task/GetTasksCreatedByUserId?userId=${user_id}`
@@ -32,28 +21,19 @@ const Profile = ({ userId }) => {
                 // Fetch assigned tasks (optional)
                 const assignedTasksResponse = await axios.get(
                     `https://localhost:7260/api/Task/GetTasksAssignedToUserId?userId=${user_id}`
->>>>>>> 990d09d62640434313786beb4c1f6c57bf22fde3
                 );
                 setAssignedTasks(assignedTasksResponse.data);
 
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching tasks:', err.response?.data || err.message);
-<<<<<<< HEAD
-                setError(err);
-=======
                 //setError(err);
->>>>>>> 990d09d62640434313786beb4c1f6c57bf22fde3
                 setLoading(false);
             }
         };
 
         fetchTasks();
-<<<<<<< HEAD
-    }, [userId]);
-=======
     }, [userId, user_id]);
->>>>>>> 990d09d62640434313786beb4c1f6c57bf22fde3
 
     if (loading) {
         return (
@@ -75,15 +55,9 @@ const Profile = ({ userId }) => {
 
     return (
         <div className="container mt-4">
-<<<<<<< HEAD
-            <div className="user-profile border border-secondary p-4 mb-4">
-                <h1 className="mb-3">User Profile</h1>
-                <p className="mb-1">User ID: {userId}</p>
-=======
             <div className="user-profile border rounded p-4 shadow-sm mb-4 bg-light">
                 <h1 className="mb-3">User Profile</h1>
                 <p><strong>User ID:</strong> {user_id}</p>
->>>>>>> 990d09d62640434313786beb4c1f6c57bf22fde3
             </div>
 
             <div className="tasks-section">
@@ -104,30 +78,6 @@ const Profile = ({ userId }) => {
                     )}
                 </div>
 
-<<<<<<< HEAD
-            <div className="mb-4">
-                <h2 className="mb-3">Created Tasks</h2>
-                <ul className="list-unstyled">
-                    {createdTasks.map((task, index) => (
-                        <li key={index} className="mb-2">
-                            <a href={`/tasks/${task.id}`}>{task.name}</a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <hr className="my-4" />
-
-            <div className="mb-4">
-                <h2 className="mb-3">Assigned Tasks</h2>
-                <ul className="list-unstyled">
-                    {assignedTasks.map((task, index) => (
-                        <li key={index} className="mb-2">
-                            <a href={`/tasks/${task.id}`}>{task.name}</a>
-                        </li>
-                    ))}
-                </ul>
-=======
                 <div className="mb-4">
                     <h2 className="mb-3 text-primary">Assigned Tasks</h2>
                     {assignedTasks.length > 0 ? (
@@ -144,7 +94,6 @@ const Profile = ({ userId }) => {
                         <p className="text-muted">No tasks assigned.</p>
                     )}
                 </div>
->>>>>>> 990d09d62640434313786beb4c1f6c57bf22fde3
             </div>
         </div>
     );
